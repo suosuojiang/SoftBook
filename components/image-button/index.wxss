@@ -1,0 +1,6 @@
+/* components/image-button/index.wxss */
+.container{
+  padding: 0 !important;
+  border: none !important;
+  line-height: 1;
+}

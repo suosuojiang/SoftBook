@@ -1,0 +1,99 @@
+<!--pages/book-detail/book-detail.wxml-->
+<!-- wxs文件的引入，只能用相对路径,用module定义文件名字 -->
+<wxs src="../../util/filter.wxs" module="util" />
+
+<view class='container'>
+  <!-- 书籍、书籍名、作者 -->
+  <view class='head'>
+    <image src='{{book.image}}'></image>
+    <text class='title'>{{book.title}}</text>
+    <text class='author'>{{book.author}}</text>
+  </view>
+  <!-- 短评 -->
+  <view class='sub-container'>
+    <text class='headline'>短评</text>
+    <text class="shadow" wx:if="{{comments==false}}">还没有短评，赶紧添加一条吧～</text>
+    <view class='comment-container'>
+      <block  wx:for='{{util.limit(comments,10)}}' wx:key='content'>
+      <!-- 这里的text是组件里定义的一个属性，在这里进行传值 -->
+        <v-tag tag-class="{{tool.highlight(index)}}" text="{{item.content}}">
+          <!-- text必须放在组件标签内部才能放在插槽中 -->
+          <text slot="after" class='num'>{{'+'+ item.nums}}</text>
+        </v-tag>
+      </block>
+    </view>  
+  </view>
+  <!-- 内容简介 -->
+  <view class='sub-container'>
+    <text class='headline'>内容简介</text>
+    <!-- decode="true"用于解析&nbsp;这种字符 -->
+    <text class='content' decode="true">{{util.format_use(book.summary)}}</text>
+  </view>
+
+  <view class='sub-container'>
+    <text class='headline'>书本信息</text>
+    <view class='detail-container'>
+      <view class='vertical description'>
+        <text>出版社</text>
+        <text>出版年</text> 
+        <text>页数</text>     
+        <text>定价</text>     
+        <text>装帧</text>     
+      </view>
+      <view class='vertical'>
+        <text>{{book.publisher}}</text>
+        <text>{{book.pubdate}}</text>
+        <text>{{book.pages}}</text>
+        <text>{{book.price}}</text>
+        <text>{{book.binding}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class='post-container' wx:if="{{!posting}}">
+  <view bind:tap="onFakePost" class='post-fake'>
+    <text>输入短评</text>
+  </view>
+  <view class='like-container'>
+    <v-like bind:like="onLike" class="like" like="{{likeStatus}}" count="{{likeCount}}"/>
+    <v-button open-type='share' class='share-btn'>
+        <image class='share' slot="img" src='/images/icon/share.png'></image>
+    </v-button>
+  </view>
+</view>
+
+<v-mask wx:if="{{posting}}"/>
+
+<view class='posting-container' wx:if="{{posting}}">
+  <view class='post-header'>
+    <text wx:if="{{comments==true}}">仅可点击标签+1</text>
+    <text wx:else>暂无短评，添加一条吧～</text>
+    <text bind:tap="onCancel" class='cancel'>取消</text>
+  </view>
+  <view class='comment-container'>
+    <block  wx:for='{{util.limit(comments,3)}}' wx:key='content'>
+      <v-tag bind:tapping="onPost" tag-class="{{tool.highlight(index)}}" text="{{item.content}}">
+        <!-- text必须放在组件标签内部才能放在插槽中 -->
+        <text slot="after" class='num'>{{'+'+ item.nums}}</text>
+      </v-tag>
+    </block>
+  </view>
+  <input bindconfirm="onPost" class='post' placeholder='短评最多12个字'></input>
+</view>
+
+<wxs module="tool">
+  var highlight = function(index){
+    if(index == 0){
+      return 'ex-tag1'
+    }
+    if(index == 1){
+      return 'ex-tag2'
+    }
+    return ''
+  }
+
+  module.exports = {
+    highlight:highlight
+  }
+</wxs>

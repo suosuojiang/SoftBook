@@ -1,0 +1,35 @@
+<!--pages/my/my.wxml-->
+<view class='container'>
+  <image src='/images/my/my@bg.png' class='bg'></image>
+  <!-- 以下只能显示用户信息 -->
+  <!-- <open-data type="userAvatarUrl" class='avatar avatar-position'/> -->
+  <v-button wx:if="{{!showAvatar}}" open-type='getUserInfo' class='avatar-position' bind:getuserinfo="onGetUserInfo">
+    <image slot="img" class='avatar' src='/images/my/my.png' />
+  </v-button>
+  <v-button wx:if="{{showAvatar}}" open-type='getUserInfo' class='avatar-position' bind:getuserinfo="onGetUserInfo">
+    <image slot="img" class='avatar' src='{{userInfo.avatarUrl}}' />
+    <text slot='text'>{{userInfo.nickName}}</text>
+  </v-button>
+
+  <view class='about-container'>
+    <view bind:tap="onJumpToAbout" class='about-us'>
+      <image src='/images/my/about.png'></image>
+      <text class='description'>关于我们</text>
+    </view>
+    <view class='about-us'>
+      <text class='book-num'>{{bookCount}}</text>
+      <text class='description'>喜欢的书</text>
+    </view>
+    <!-- 如何获取用户信息 -->
+  </view>
+
+  <view class="like-container">
+    <image class=".headline" src="/images/my/like.png" />
+    <view class="preview-container">
+      <block wx:for="{{classics}}">
+        <preview-cmp bind:tap="onPreviewTap" class="preview" classic="{{item}}" />
+      </block>
+    </view>
+  </view>
+  <!-- <button open-type='getUserInfo' bindgetuserinfo='getUserInfo'>授权</button> -->
+</view>

@@ -1,0 +1,17 @@
+<!-- like是自定义事件,触发like事件时调用onLike方法 -->
+<view class='container'>
+  <view class='header'>
+    <v-epsoide class='epsoide' index="{{classicData.index}}" />
+    <view class='like-container'>
+      <v-like class='like' bind:like="onLike" like="{{likeStatus}}" count="{{likeCount}}" />
+      <v-button open-type='share' class='share-btn'>
+        <image class='share' slot="img" src='/images/icon/share.png'></image>
+      </v-button>
+    </view>
+  </view>
+  <v-movie hidden="{{classicData.type!=100}}" img="{{classicData.image}}" content="{{classicData.content}}"/>
+  <!-- <v-music hidden="{{classicData.type!=200}}" img="{{classicData.image}}" content="{{classicData.content}}" title="{{classicData.title}}" src="{{classicData.url}}"/> -->
+  <v-music wx:if="{{classicData.type==200}}" img="{{classicData.image}}" content="{{classicData.content}}" title="{{classicData.title}}" src="{{classicData.url}}"/>
+  <v-essay hidden="{{classicData.type!=300}}" img="{{classicData.image}}" content="{{classicData.content}}"/>
+  <v-navi bind:left="onNext" bind:right="onPrevious" class='navi' title="{{classicData.title}}" first="{{first}}" latest="{{latest}}"/>
+</view>

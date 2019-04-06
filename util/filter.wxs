@@ -1,0 +1,20 @@
+// 将//n换成/n
+var format = function(text){
+  //由于text参数是request请求拿到的数据，wxml在拿到数据前后都会渲染
+  //所以要判断text是否为空，为空时跳出，不为空执行正则
+  if(!text){
+    return
+  }
+  var reg = getRegExp('\\\\n','g')
+  return text.replace(reg,'\n&nbsp;&nbsp;&nbsp;&nbsp;')
+}
+
+// 截取数组的前若干条，此项目用于短评
+var limit = function(array,length){
+  return array.slice(0,length)
+}
+
+module.exports = {
+  format_use:format,
+  limit:limit
+}

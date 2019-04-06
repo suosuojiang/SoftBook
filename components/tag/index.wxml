@@ -1,0 +1,6 @@
+<!--components/tag/index.wxml-->
+<view bind:tap="onTap" class='container tag-class'>
+  <text>{{text}}</text>
+  <!-- slot可以供外部传递wxml语句 -->
+  <slot name="after"></slot>
+</view>
